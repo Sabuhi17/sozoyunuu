@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Müəllim Paneli</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Müəllim Paneli</h2>
+
+<button id="create">Oyun yarat</button>
+<div id="room"></div>
+<button id="start">Başla</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io()
+let roomCode=null
+
+document.getElementById("create").onclick=()=>{
+socket.emit("createRoom")
+}
+
+socket.on("roomCreated",(code)=>{
+roomCode=code
+document.getElementById("room").innerText="Room Code: "+code
+})
+
+document.getElementById("start").onclick=()=>{
+if(roomCode) socket.emit("startGame",roomCode)
+}
+</script>
+
+</body>
+</html>
